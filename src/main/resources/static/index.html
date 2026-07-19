@@ -47,6 +47,25 @@
                         Adjust sliders to compute data...
                     </p>
                 </div>
+                <!-- AI Tutor Chat Section -->
+                <div class="border-t border-slate-700 pt-4 space-y-3">
+                    <h3 class="text-sm font-semibold text-slate-400 uppercase tracking-wider">AI Physics Tutor</h3>
+    
+                    <!-- Chat History Log Box -->
+                    <div id="chatHistory" class="h-40 bg-slate-900/80 rounded border border-slate-700/50 p-3 text-xs overflow-y-auto space-y-2 font-sans">
+                        <div class="text-indigo-400 font-semibold">Tutor:</div>
+                        <div class="text-slate-300">Hi! Drag the sliders to change variables, and ask me why the graph changes. How can I help?</div>
+                    </div>
+    
+                    <!-- Chat Input Form -->
+                    <div class="flex gap-2">
+                        <input type="text" id="chatInput" placeholder="Ask a question..." 
+                            class="flex-1 bg-slate-900 border border-slate-700 rounded px-3 py-1.5 text-xs text-slate-100 focus:outline-none focus:border-indigo-500">
+                        <button id="sendBtn" class="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-4 py-1.5 text-xs rounded transition">
+                           Ask
+                        </button>
+                    </div>
+            </div>
             </div>
 
             <!-- Right Panel: The Dynamic Graph Plot -->

@@ -77,4 +77,56 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Run the script instantly on window startup load
     updateSimulation();
+
+    // AI Chatbox UI Handling Logic
+    const chatInput = document.getElementById("chatInput");
+    const sendBtn = document.getElementById("sendBtn");
+    const chatHistory = document.getElementById("chatHistory");
+
+    async function sendMessageToTutor() {
+        const text = chatInput.value.trim();
+        if (!text) return;
+
+        // Display user message in the chat box window
+        chatHistory.innerHTML += `<div class="mt-2 text-slate-400 font-semibold">You:</div><div class="text-slate-200">${text}</div>`;
+        chatInput.value = "";
+        chatHistory.scrollTop = chatHistory.scrollHeight;
+
+        // Show a loading text placeholder
+        const loadingDiv = document.createElement("div");
+        loadingDiv.className = "text-indigo-400 italic animate-pulse mt-1";
+        loadingDiv.textContent = "Tutor is thinking...";
+        chatHistory.appendChild(loadingDiv);
+
+        try {
+            // POST request payload carrying message + active UI state variables
+            const response = await fetch('/api/tutor/ask', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    message: text,
+                    wavelength: waveSlider.value,
+                    slitSpacing: slitSlider.value
+                })
+            });
+
+            if (!response.ok) throw new Error("AI Endpoint offline.");
+            const data = await response.json();
+
+            // Clear loading display and write AI result
+            loadingDiv.remove();
+            chatHistory.innerHTML += `<div class="mt-2 text-indigo-400 font-semibold">Tutor:</div><div class="text-slate-300">${data.reply}</div>`;
+            chatHistory.scrollTop = chatHistory.scrollHeight;
+
+        } catch (error) {
+            loadingDiv.remove();
+            chatHistory.innerHTML += `<div class="mt-2 text-red-400 italic">Error connecting to AI Tutor. Check backend log.</div>`;
+            console.error("AI Fetch Failure:", error);
+        }
+    }
+
+    // Trigger action on button click or hitting Enter key
+    sendBtn.addEventListener("click", sendMessageToTutor);
+    chatInput.addEventListener("keypress", (e) => { if (e.key === "Enter") sendMessageToTutor(); });
 });
+
