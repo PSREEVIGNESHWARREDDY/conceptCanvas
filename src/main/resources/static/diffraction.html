@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ConceptCanvas - Interactive Optics Sandbox</title>
+    <!-- Tailwind CSS for Quick Styling -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Plotly.js for Zero-Lag Graphing -->
+    <script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen p-8">
+    <div class="max-w-6xl mx-auto space-y-8">
+        <header class="border-b border-slate-700 pb-4">
+            <div>
+                <h1 class="text-3xl font-extrabold tracking-tight text-green-400">ConceptCanvas</h1>
+                <p class="text-slate-400 text-sm py-1.5">Interactive STEM Tutor: Wave Diffraction Sandbox</p>
+            </div>
+            <a href="/" class="text-xs bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 px-3 py-1.5 rounded-lg transition">
+                &larr; Back to Home
+            </a>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Left Panel: Sliders & Controls -->
+            <div class="bg-slate-800 p-6 rounded-xl border border-slate-700 space-y-6">
+                <h2 class="text-xl font-bold text-slate-200">Simulation Variables</h2>
+                
+                <!-- Wavelength Slider -->
+                <div class="space-y-2">
+                    <label class="block text-sm font-medium text-slate-300 flex justify-between">
+                        <span>Wavelength (λ)</span>
+                        <span id="waveVal" class="text-indigo-400 font-mono">550 nm</span>
+                    </label>
+                    <input type="range" id="wavelength" min="400" max="700" value="550" 
+                           class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-indigo-500">
+                </div>
+
+                <!-- Slit Spacing Slider -->
+                <div class="space-y-2">
+                    <label class="block text-sm font-medium text-slate-300 flex justify-between">
+                        <span>Slit Spacing (d)</span>
+                        <span id="slitVal" class="text-indigo-400 font-mono">2000 nm</span>
+                    </label>
+                    <input type="range" id="slitSpacing" min="1000" max="4000" value="2000" 
+                           class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-indigo-500">
+                </div>
+
+                <div class="border-t border-slate-700 pt-4">
+                    <h3 class="text-sm font-semibold text-slate-400 uppercase tracking-wider">Live Math Data</h3>
+                    <p id="mathExplanation" class="text-xs text-slate-300 mt-2 italic bg-slate-900/50 p-3 rounded border border-slate-700/50">
+                        Adjust sliders to compute data...
+                    </p>
+                </div>
+                <!-- AI Tutor Chat Section -->
+                <div class="border-t border-slate-700 pt-4 space-y-3">
+                    <h3 class="text-sm font-semibold text-slate-400 uppercase tracking-wider">AI Physics Tutor</h3>
+    
+                    <!-- Chat History Log Box -->
+                    <div id="chatHistory" class="h-40 bg-slate-900/80 rounded border border-slate-700/50 p-3 text-xs overflow-y-auto space-y-2 font-sans">
+                        <div class="text-indigo-400 font-semibold">Tutor:</div>
+                        <div class="text-slate-300">Hi! Drag the sliders to change variables, and ask me why the graph changes. How can I help?</div>
+                    </div>
+    
+                    <!-- Chat Input Form -->
+                    <div class="flex gap-2">
+                        <input type="text" id="chatInput" placeholder="Ask a question..." 
+                            class="flex-1 bg-slate-900 border border-slate-700 rounded px-3 py-1.5 text-xs text-slate-100 focus:outline-none focus:border-indigo-500">
+                        <button id="sendBtn" class="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-4 py-1.5 text-xs rounded transition">
+                           Ask
+                        </button>
+                    </div>
+            </div>
+            </div>
+
+            <!-- Right Panel: The Dynamic Graph Plot -->
+            <div class="md:col-span-2 bg-slate-800 p-6 rounded-xl border border-slate-700 flex flex-col justify-between">
+                <h2 class="text-xl font-bold text-slate-200 mb-4">Interference Fringes Visualizer</h2>
+                <div id="plotContainer" class="w-full h-96 bg-slate-900 rounded-lg overflow-hidden"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wire up the logic script -->
+    <script src="/js/app.js"></script>
+</body>
+</html>
