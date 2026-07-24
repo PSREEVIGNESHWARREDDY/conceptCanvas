@@ -12,24 +12,22 @@ import java.util.List;
 @RequestMapping("/api/optics")
 public class OpticsController {
 
-    @GetMapping("/calculate")
+    // UPDATE THIS LINE FROM /calculate TO /diffraction
+    @GetMapping("/diffraction")
     public DiffractionResponse calculateDiffraction(
-            @RequestParam(defaultValue = "600") double wavelengthNm, // λ in nanometers
-            @RequestParam(defaultValue = "2000") double slitSpacingNm // d in nanometers
+            @RequestParam(defaultValue = "600") double wavelengthNm,
+            @RequestParam(defaultValue = "2000") double slitSpacingNm
     ) {
         DiffractionResponse response = new DiffractionResponse();
         List<Integer> orders = new ArrayList<>();
         List<Double> angles = new ArrayList<>();
 
-        // Convert inputs for the formula: sin(theta) = m * lambda / d
         double lambda = wavelengthNm;
         double d = slitSpacingNm;
 
-        // Calculate possible orders (m) up to the physical limit where sin(theta) > 1
         for (int m = 0; m <= 5; m++) {
             double sinTheta = (m * lambda) / d;
             
-            // Physical boundary check
             if (sinTheta <= 1.0) {
                 double thetaRadians = Math.asin(sinTheta);
                 double thetaDegrees = Math.toDegrees(thetaRadians);
@@ -37,7 +35,6 @@ public class OpticsController {
                 orders.add(m);
                 angles.add(thetaDegrees);
                 
-                // Also add negative orders for symmetry
                 if (m > 0) {
                     orders.add(-m);
                     angles.add(-thetaDegrees);
